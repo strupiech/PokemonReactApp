@@ -1,5 +1,4 @@
 # PokemonReactApp
-Aplikacja stworzona na potrzeby rekrutacji.<br/>
 Aplikacja napisana jest z wykorzystaniem React(create-react-app) oraz Styled-Components<br/>
 Aplikacja jest responsywna.<br/>
 SPA.<br/>
