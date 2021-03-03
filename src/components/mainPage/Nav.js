@@ -2,9 +2,16 @@ import React from "react";
 import NavList from "./NavList";
 import NavHeader from "./NavHeader";
 import NavFooter from "./NavFooter";
-import { ListWrapper } from "../styled/Lib";
+import { ListWrapper } from "../../styles/Lib";
+import { useHistory } from 'react-router-dom';
 
 const Nav = (props) => {
+  let history = useHistory();
+
+  const handleShowDetails = () => {
+    history.push("/details");
+  }
+
   return (
     <ListWrapper>
       <NavHeader attribute={props.attribute} />
@@ -12,9 +19,8 @@ const Nav = (props) => {
         <NavList
           pokemon={pokemon}
           key={pokemon.id}
-          toggleEvolution={props.toggleEvolution}
-          toggleShowDetails={props.toggleShowDetails}
           activePokemonChange={props.activePokemonChange}
+          handleShowDetails={handleShowDetails}
         />
       ))}
       <NavFooter
@@ -24,4 +30,5 @@ const Nav = (props) => {
     </ListWrapper>
   );
 };
+
 export default Nav;

@@ -1,17 +1,7 @@
 import React from "react";
-import {
-  AppWrapper,
-  Aside,
-  Menu,
-  MenuHeader,
-  DetailsHeader,
-  MiddleSectionWrapper,
-  MiddleImage,
-} from "./styled/Lib";
-import LeftDetailedAside from "./detailedPage/LeftDetailedAside";
-import RightDetailedAside from "./detailedPage/RightDetailedAside";
-import Nav from "./mainPage/Nav";
-import DetailsFooter from "./detailedPage/DetailsFooter";
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import MainPage from "../pages/MainPage";
+import DetailedPage from "../pages/DetailedPage";
 
 const LISTHEADER = ["Id", "Pokemon", "Nazwa", "Min. LVL", "Typ", "Evolucja"];
 
@@ -19,7 +9,6 @@ const POKESTART = "https://pokeapi.co/api/v2/pokemon/";
 
 class App extends React.Component {
   state = {
-    showDetails: false,
     pagenumbers: [
       { id: 1, active: true },
       { id: 2, active: false },
@@ -62,10 +51,6 @@ class App extends React.Component {
     this.handleDataFetch(id);
   };
 
-  handleToggleShowDetails = () => {
-    this.setState({ showDetails: !this.state.showDetails });
-  };
-
   handleDataFetch = (id) => {
     for (var i = 1 + 10 * (id - 1); i < 11 + 10 * (id - 1); i++) {
       this.setState({ pokemons: [] });
@@ -95,42 +80,34 @@ class App extends React.Component {
   }
 
   render() {
-    if (this.state.showDetails)
-      return (
-        <AppWrapper>
-          <DetailsHeader />
-          <MiddleSectionWrapper>
-            <LeftDetailedAside pokemons={this.state.pokemons} />
-            <MiddleImage theme={this.state.bgIm} />
-            <RightDetailedAside
-              pokemon={this.state.pokemons[this.state.activePokemonId - 1]}
-            />
-          </MiddleSectionWrapper>
-          <DetailsFooter
-            toggleShowDetails={this.handleToggleShowDetails}
-            activePokemonChange={this.handleActivePokemonChange}
-            pokemons={this.state.pokemons}
-            activePokemon={this.state.activePokemonId}
-          />
-        </AppWrapper>
-      );
-    else
-      return (
-        <AppWrapper>
-          <Aside />
-          <Menu>
-            <MenuHeader />
-            <Nav
-              pokemons={this.state.pokemons}
-              attribute={LISTHEADER}
-              pagenumbers={this.state.pagenumbers}
-              changePage={this.handleChangePage}
-              toggleShowDetails={this.handleToggleShowDetails}
-              activePokemonChange={this.handleActivePokemonChange}
-            />
-          </Menu>
-        </AppWrapper>
-      );
+    return (
+      <>
+        <Router>
+          <Switch>
+            <Route exact path="/" >
+              <Redirect to="/welcome" />
+            </Route>
+            <Route exact path="/welcome">
+              <MainPage
+                pokemons={this.state.pokemons}
+                attribute={LISTHEADER}
+                pagenumbers={this.state.pagenumbers}
+                changePage={this.handleChangePage}
+                activePokemonChange={this.handleActivePokemonChange} />
+            </Route>
+            <Route exact path="/details">
+              <DetailedPage
+                activePokemonChange={this.handleActivePokemonChange}
+                pokemons={this.state.pokemons}
+                activePokemon={this.state.activePokemonId}
+                pokemon={this.state.pokemons[this.state.activePokemonId - 1]}
+                theme={this.state.bgIm}
+              />
+            </Route>
+          </Switch>
+        </Router>
+      </>
+    );
   }
 }
 

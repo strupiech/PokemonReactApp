@@ -1,8 +1,9 @@
 import React from "react";
 import Item from "./Item";
-import { List } from "../styled/Lib";
+import { List } from "../../styles/Lib";
 
 class NavList extends React.Component {
+
   state = {
     hover: false,
     evolution: this.props.pokemon.evolution,
@@ -24,7 +25,7 @@ class NavList extends React.Component {
         onMouseLeave={this.toggleEvolution}
         onMouseEnter={this.toggleEvolution}
         onClick={() => {
-          this.props.toggleShowDetails();
+          this.props.handleShowDetails();
           this.props.activePokemonChange(this.props.pokemon.id);
         }}
       >
@@ -34,6 +35,7 @@ class NavList extends React.Component {
           name={this.props.pokemon.name}
           minLvl={this.props.pokemon.minLvl}
           type={this.props.pokemon.types[0].type.name}
+          evolution={this.state.evolution}
         />
       </List>
     );
