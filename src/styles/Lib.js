@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import asideImg from "../../images/warstwa2.png";
-import pokelogo from "../../images/pokelogo.png";
+import asideImg from "../images/warstwa2.png";
+import pokelogo from "../images/pokelogo.png";
 
 export const AppWrapper = styled.div`
   margin: 0px;

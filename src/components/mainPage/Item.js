@@ -1,5 +1,5 @@
 import React from "react";
-import { Record } from "../styled/Lib";
+import { Record } from "../../styles/Lib";
 
 function zeroPad(num) {
   return num.toString().padStart(3, "0");

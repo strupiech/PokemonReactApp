@@ -1,5 +1,5 @@
 import React from "react";
-import { RightDetailsText, RightDetailsAside } from "../styled/Lib";
+import { RightDetailsText, RightDetailsAside } from "../../styles/Lib";
 import RightDetailsInfo from "./RightDetailsInfo";
 
 const RightDetailedAside = (props) => (

@@ -5,7 +5,7 @@ import {
   LeftDetailsHeader,
   Stat,
   InStat,
-} from "../styled/Lib";
+} from "../../styles/Lib";
 
 const LeftDetailedAside = (props) => (
   <LeftDetailsAside>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Info, InfoItem } from "../styled/Lib";
+import { Info, InfoItem } from "../../styles/Lib";
 
 const RightDetailsInfo = (props) => (
   <Info>

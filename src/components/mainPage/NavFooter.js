@@ -3,7 +3,7 @@ import {
   ListFooter,
   ItemListFooter,
   reversedItemListFooter,
-} from "../styled/Lib";
+} from "../../styles/Lib";
 
 const NavFooter = (props) => (
   <ListFooter>
