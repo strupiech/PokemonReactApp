@@ -2,12 +2,13 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import MainPage from "../pages/MainPage";
 import DetailedPage from "../pages/DetailedPage";
+import FetchDataService from "../services/FetchDataService"
 
 const LISTHEADER = ["Id", "Pokemon", "Nazwa", "Min. LVL", "Typ", "Evolucja"];
-
-const POKESTART = "https://pokeapi.co/api/v2/pokemon/";
+const POKEMONS = FetchDataService.POKEMONS;
 
 class App extends React.Component {
+
   state = {
     pagenumbers: [
       { id: 1, active: true },
@@ -18,15 +19,14 @@ class App extends React.Component {
       { id: 6, active: false },
     ],
     activePokemonId: 1,
-    pokemons: [],
     bgIm: null,
   };
 
   handleActivePokemonChange = (id) => {
     this.setState(() => {
-      return { activePokemonId: id % 10 === 0 ? 10 : id % 10 };
+      return { activePokemonId: id };
     });
-    this.handleBgImChange(id % 10 === 0 ? 10 : id % 10);
+    this.handleBgImChange(id);
   };
 
   handleBgImChange = (id) => {
@@ -48,38 +48,10 @@ class App extends React.Component {
     this.setState({
       pagenumbers: pagenumbers,
     });
-    this.handleDataFetch(id);
   };
-
-  handleDataFetch = (id) => {
-    for (var i = 1 + 10 * (id - 1); i < 11 + 10 * (id - 1); i++) {
-      this.setState({ pokemons: [] });
-      fetch(POKESTART + i)
-        .then((response) => {
-          if (response.ok) {
-            return response;
-          }
-          throw Error(
-            "Błąd podczas pobierania danych z Pokemon API " + response.status
-          );
-        })
-        .then((response) => response.json())
-        .then((data) => {
-          const pokemons = this.state.pokemons;
-          this.setState({ pokemons: [...pokemons, data] });
-        });
-    }
-
-    this.state.pokemons.sort(function (a, b) {
-      return a.id - b.id;
-    });
-  };
-
-  componentDidMount() {
-    this.handleDataFetch(1);
-  }
 
   render() {
+
     return (
       <>
         <Router>
@@ -89,7 +61,7 @@ class App extends React.Component {
             </Route>
             <Route exact path="/welcome">
               <MainPage
-                pokemons={this.state.pokemons}
+                length={this.state.length}
                 attribute={LISTHEADER}
                 pagenumbers={this.state.pagenumbers}
                 changePage={this.handleChangePage}
@@ -98,9 +70,8 @@ class App extends React.Component {
             <Route exact path="/details">
               <DetailedPage
                 activePokemonChange={this.handleActivePokemonChange}
-                pokemons={this.state.pokemons}
                 activePokemon={this.state.activePokemonId}
-                pokemon={this.state.pokemons[this.state.activePokemonId - 1]}
+                pokemon={POKEMONS[this.state.activePokemonId - 1]}
                 theme={this.state.bgIm}
               />
             </Route>
