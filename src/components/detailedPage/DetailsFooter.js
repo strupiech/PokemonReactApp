@@ -23,8 +23,8 @@ function DetailsFooter(props) {
         Następny &gt;
     </NextButton>
       <TitleFooter>
-        {zeroPad(props.pokemons[props.activePokemon - 1].id)}{" "}
-        {props.pokemons[props.activePokemon - 1].name}
+        {zeroPad(props.pokemon.id)}{" "}
+        {props.pokemon.name}
       </TitleFooter>
     </>
   )

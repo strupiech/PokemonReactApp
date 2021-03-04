@@ -14,7 +14,7 @@ function DetailedPage(props) {
         <AppWrapper>
             <DetailsHeader />
             <MiddleSectionWrapper>
-                <LeftDetailedAside pokemons={props.pokemons} />
+                <LeftDetailedAside />
                 <MiddleImage theme={props.theme} />
                 <RightDetailedAside
                     pokemon={props.pokemon}
@@ -22,7 +22,7 @@ function DetailedPage(props) {
             </MiddleSectionWrapper>
             <DetailsFooter
                 activePokemonChange={props.activePokemonChange}
-                pokemons={props.pokemons}
+                pokemon={props.pokemon}
                 activePokemon={props.activePokemon}
             />
         </AppWrapper>
