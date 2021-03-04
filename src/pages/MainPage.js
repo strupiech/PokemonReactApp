@@ -6,8 +6,14 @@ import {
     MenuHeader,
 } from "../styles/Lib";
 import Nav from "../components/mainPage/Nav";
+import { useHistory } from 'react-router-dom';
 
 function MainPage(props) {
+    let history = useHistory();
+
+    const handleShowDetails = () => {
+        history.push("/details");
+    }
     return (
         <AppWrapper>
             <Aside />
@@ -19,6 +25,7 @@ function MainPage(props) {
                     pagenumbers={props.pagenumbers}
                     changePage={props.changePage}
                     activePokemonChange={props.activePokemonChange}
+                    handleShowDetails={handleShowDetails}
                 />
             </Menu>
         </AppWrapper>
