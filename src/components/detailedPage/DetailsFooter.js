@@ -18,7 +18,7 @@ function DetailsFooter(props) {
     <>
       <BackButton onClick={() => handleBackToWelcome()}>&lt; Powrót </BackButton>
       <NextButton
-        onClick={() => props.activePokemonChange(props.activePokemon + 1)}
+        onClick={() => props.activePokemonChange(props.activePokemonId + 1)}
       >
         Następny &gt;
     </NextButton>
