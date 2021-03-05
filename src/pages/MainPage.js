@@ -21,7 +21,6 @@ function MainPage(props) {
                 <MenuHeader />
                 <Nav
                     pokemons={props.pokemons}
-                    attribute={props.attribute}
                     pagenumbers={props.pagenumbers}
                     changePage={props.changePage}
                     activePokemonChange={props.activePokemonChange}

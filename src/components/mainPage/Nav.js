@@ -3,64 +3,73 @@ import NavList from "./NavList";
 import NavHeader from "./NavHeader";
 import NavFooter from "./NavFooter";
 import { ListWrapper } from "../../styles/Lib";
-import FetchDataService from "../../services/FetchDataService"
-
-const POKEMONS = FetchDataService.POKEMONS;
-// const POKESTART = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=60";
+import { fetchPokemons, fetchPokemonByURL } from "../../fetch/pokemon.fetch"
 
 function Nav(props) {
 
-  const [pokemons, setPokemons] = React.useState(POKEMONS);
-  // useEffect(() => {
-  //   const pokemonsData = [];
+  const [pokemons, setPokemons] = React.useState([]);
+  const [error, setError] = React.useState("");
+  const limit = 60;
 
-  //   fetch(POKESTART)
-  //     .then((response) => response.json())
-  //     .then((response) => {
-  //       response.results.map(pokemon => {
-  //         fetch(pokemon.url)
-  //           .then(response => response.json())
-  //           .then(pokeDetails => {
-  //             pokemonsData.push(pokeDetails);
-  //           });
-  //       })
-  //     },
-  //       (error) => {
-  //         ERORR = error;
-  //       });
+  const fetchPokemonsData = async () => {
+    let pokemonsData = [];
 
-  //   pokemonsData.sort(function (a, b) {
-  //     return a.id - b.id;
-  //   });
-  //   console.log(pokemonsData);
-  //   console.log(pokemonsData.length);
-  //   setPokemons(pokemonsData);
-  // }, []);
+    await fetchPokemons(limit)
+      .then((response) => response.json())
+      .then((response) => {
+        response.results.map(async (pokemon) => {
+          await fetchPokemonByURL(pokemon.url)
+            .then(response => response.json())
+            .then(pokeDetails => {
+              pokemonsData.push(pokeDetails);
+            });
+          if (pokemonsData.length === limit) {
+            pokemonsData.sort(function (a, b) {
+              return a.id - b.id;
+            });
+            setPokemons(pokemonsData);
+          }
+        })
+      },
+        (error) => {
+          setError(error);
+        });
+  }
+
+  useEffect(() => {
+    fetchPokemonsData();
+  }, []);
 
   const renderNavList = (pageId) => {
-    let counter = pageId - 1 * 10;
-    const rows = [];
 
     if (pokemons.length > 0) {
-      for (let i = counter; i < counter + 10; i++) {
-        {
-          rows.push(
-            <NavList
-              pokemon={pokemons[i]}
-              activePokemonChange={props.activePokemonChange}
-              handleShowDetails={props.handleShowDetails}
-            />
-          );
-        }
-        return rows;
+      let offset = (pageId - 1) * 10;
+      const navItems = [];
+      let currKey = 0
+      for (let i = offset; i < (offset + 10); i++) {
+        navItems.push(
+          <NavList
+            key={currKey++}
+            pokemon={pokemons[i]}
+            activePokemonChange={props.activePokemonChange}
+            handleShowDetails={props.handleShowDetails}
+          />
+        );
       }
+      return navItems;
+    }
+  }
+
+  const getActivePage = () => {
+    for (let i = 0; i < props.pagenumbers.length; i++) {
+      if (props.pagenumbers[i].active) return props.pagenumbers[i].id;
     }
   }
 
   return (
     <ListWrapper>
-      <NavHeader attribute={props.attribute} />
-      {renderNavList(1)}
+      <NavHeader />
+      {renderNavList(getActivePage())}
       <NavFooter
         pagenumbers={props.pagenumbers}
         changePage={props.changePage}
