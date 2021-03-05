@@ -2,10 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import MainPage from "../pages/MainPage";
 import DetailedPage from "../pages/DetailedPage";
-import FetchDataService from "../services/FetchDataService"
 
-const LISTHEADER = ["Id", "Pokemon", "Nazwa", "Min. LVL", "Typ", "Evolucja"];
-const POKEMONS = FetchDataService.POKEMONS;
 
 class App extends React.Component {
 
@@ -26,15 +23,6 @@ class App extends React.Component {
     this.setState(() => {
       return { activePokemonId: id };
     });
-    this.handleBgImChange(id);
-  };
-
-  handleBgImChange = (id) => {
-    this.setState(() => {
-      return {
-        bgIm: this.state.pokemons[id - 1].sprites.front_default,
-      };
-    });
   };
 
   handleChangePage = (id) => {
@@ -51,7 +39,6 @@ class App extends React.Component {
   };
 
   render() {
-
     return (
       <>
         <Router>
@@ -61,8 +48,6 @@ class App extends React.Component {
             </Route>
             <Route exact path="/welcome">
               <MainPage
-                length={this.state.length}
-                attribute={LISTHEADER}
                 pagenumbers={this.state.pagenumbers}
                 changePage={this.handleChangePage}
                 activePokemonChange={this.handleActivePokemonChange} />
@@ -70,9 +55,7 @@ class App extends React.Component {
             <Route exact path="/details">
               <DetailedPage
                 activePokemonChange={this.handleActivePokemonChange}
-                activePokemon={this.state.activePokemonId}
-                pokemon={POKEMONS[this.state.activePokemonId - 1]}
-                theme={this.state.bgIm}
+                activePokemonId={this.state.activePokemonId}
               />
             </Route>
           </Switch>
