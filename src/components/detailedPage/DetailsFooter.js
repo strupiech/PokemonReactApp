@@ -18,7 +18,10 @@ function DetailsFooter(props) {
     <>
       <BackButton onClick={() => handleBackToWelcome()}>&lt; Powrót </BackButton>
       <NextButton
-        onClick={() => props.activePokemonChange(props.activePokemonId + 1)}
+        onClick={() => {
+          props.activePokemonChange(props.activePokemonId + 1);
+          props.changePage(parseInt(((props.activePokemonId + 1) / 10) + 1));
+        }}
       >
         Następny &gt;
     </NextButton>

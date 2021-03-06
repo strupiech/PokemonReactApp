@@ -18,17 +18,16 @@ function DetailedPage(props) {
     const [activePokemonId, setActivePokemonId] = React.useState(1);
 
     useEffect(() => {
-        fetchPokemonById(props.activePokemonId)
+        const ac = new AbortController();
+        fetchPokemonById(props.activePokemonId, ac)
             .then(response => response.json())
             .then(response => {
                 setPokemon(response);
                 setIsLoaded(true);
-            }),
-            (error) => {
-                setError(error);
-                setIsLoaded(true);
-            };
-    }, []);
+            }).catch(ignored => { });
+
+        return () => ac.abort();
+    });
 
     const handleActivePokemonChange = (id) => {
         props.activePokemonChange(id);
@@ -49,6 +48,7 @@ function DetailedPage(props) {
                     activePokemonChange={handleActivePokemonChange}
                     pokemon={pokemon}
                     activePokemonId={props.activePokemonId}
+                    changePage={props.changePage}
                 />
             </>
         }

@@ -10,7 +10,7 @@ export const fetchPokemonByURL = (url) => {
   return promise;
 }
 
-export const fetchPokemonById = (id) => {
-  const promise = fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+export const fetchPokemonById = (id, abortController) => {
+  const promise = fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, { signal: abortController.signal });
   return promise;
 }

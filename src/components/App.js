@@ -56,6 +56,7 @@ class App extends React.Component {
               <DetailedPage
                 activePokemonChange={this.handleActivePokemonChange}
                 activePokemonId={this.state.activePokemonId}
+                changePage={this.handleChangePage}
               />
             </Route>
           </Switch>
