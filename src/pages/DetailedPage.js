@@ -15,7 +15,6 @@ function DetailedPage(props) {
     const [pokemon, setPokemon] = React.useState();
     const [error, setError] = React.useState("");
     const [isLoaded, setIsLoaded] = React.useState(false);
-    const [activePokemonId, setActivePokemonId] = React.useState(1);
 
     useEffect(() => {
         const ac = new AbortController();
@@ -29,11 +28,6 @@ function DetailedPage(props) {
         return () => ac.abort();
     });
 
-    const handleActivePokemonChange = (id) => {
-        props.activePokemonChange(id);
-        setActivePokemonId(id);
-    };
-
     const renderView = () => {
         if (isLoaded) {
             return <>
@@ -45,7 +39,7 @@ function DetailedPage(props) {
                     />
                 </MiddleSectionWrapper>
                 <DetailsFooter
-                    activePokemonChange={handleActivePokemonChange}
+                    activePokemonChange={props.activePokemonChange}
                     pokemon={pokemon}
                     activePokemonId={props.activePokemonId}
                     changePage={props.changePage}
